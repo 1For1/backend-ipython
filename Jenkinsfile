@@ -2,6 +2,9 @@
 
 import groovy.json.JsonOutput
 
+properties([[$class: 'BuildDiscarderProperty',
+                strategy: [$class: 'LogRotator', numToKeepStr: '10']]])
+
 // Get all Causes for the current build
 //def causes = currentBuild.rawBuild.getCauses()
 //def specificCause = currentBuild.rawBuild.getCause(hudson.model.Cause$UserIdCause)
@@ -80,8 +83,14 @@ switch ( env.BRANCH_NAME ) {
 
 // Docker functions
 def dockerlogin() {
-    sh "docker -H tcp://10.1.10.210:5001 login -e ${env.DOCKER_EMAIL} -u ${env.DOCKER_USER} -p ${env.DOCKER_PASSWD} registry.1for.one:5000"
+
+    retry (3) {
+        timeout(60) {
+                sh "docker -H tcp://10.1.10.210:5001 login -e ${env.DOCKER_EMAIL} -u ${env.DOCKER_USER} -p ${env.DOCKER_PASSWD} registry.1for.one:5000"
+        }
+    }
     sh "cat ~/.docker/config.json"
+
 }
 
 def dockerbuild(label) {
