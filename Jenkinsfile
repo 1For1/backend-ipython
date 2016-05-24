@@ -104,9 +104,6 @@ def dockerrmi(vm) {
     sh "docker -H tcp://10.1.10.210:5001 rmi -f registry.1for.one:5000/${vm} || echo RMI Failed"
 }
 
-def dockerrm(vm) {
-    sh "docker -H tcp://10.1.10.210:5001 rm ${vm} || echo RM Failed"
-}
 
 def dockertag(label_old, label_new) {
     sh "docker -H tcp://10.1.10.210:5001 tag -f registry.1for.one:5000/${label_old} registry.1for.one:5000/${label_new}"
