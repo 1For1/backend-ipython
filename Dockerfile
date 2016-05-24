@@ -1,4 +1,4 @@
-FROM oneforone/backend-base:latest
+FROM registry.1for.one:5000/oneforone/backend-base:latest
 MAINTAINER 1For1
 LABEL version "1.0.0"
 
