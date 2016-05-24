@@ -60,7 +60,12 @@ switch ( env.BRANCH_NAME ) {
 
         stage 'Downstream'
         slackSend color: 'blue', message: "ORG: ${env.JOB_NAME} #${env.BUILD_NUMBER} - Building Downstream"
-        build '/OPS-Dev-Services/dev-service-ipython-dev1'
+        try {
+            build '/OPS-Dev-Services/dev-service-ipython-dev1'
+        } catch (err) {
+
+        }
+
 
         break
 
