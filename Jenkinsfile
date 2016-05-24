@@ -74,11 +74,11 @@ switch ( env.BRANCH_NAME ) {
 
 // Docker functions
 def dockerlogin() {
-    sh "docker -H tcp://10.1.10.210:5001 login -e ${env.DOCKER_EMAIL} -u ${env.DOCKER_USER} -p ${env.DOCKER_PASSWD}"
+    sh "docker -H tcp://10.1.10.210:5001 login -e ${env.DOCKER_EMAIL} -u ${env.DOCKER_USER} -p ${env.DOCKER_PASSWD} registry.1for.one"
 }
 
 def dockerbuild(label) {
-    sh "docker -H tcp://10.1.10.210:5001 build -t ${label} ."
+    sh "docker -H tcp://10.1.10.210:5001 build -t registry.1for.one:5000/${label} ."
 }
 def dockerstop(vm) {
     sh "docker -H tcp://10.1.10.210:5001 stop ${vm} || echo stop ${vm} failed"
@@ -88,12 +88,8 @@ def dockerrmi(vm) {
     sh "docker -H tcp://10.1.10.210:5001 rmi -f ${vm} || echo RMI Failed"
 }
 
-def dockerrm(vm) {
-    sh "docker -H tcp://10.1.10.210:5001 rm -f ${vm} || echo RM Failed"
-}
-
 def dockertag(label_old, label_new) {
-    sh "docker -H tcp://10.1.10.210:5001 tag -f ${label_old} ${label_new}"
+    sh "docker -H tcp://10.1.10.210:5001 tag -f registry.1for.one:5000/${label_old} registry.1for.one:5000/${label_new}"
 }
 
 def dockerpush(vm) {
