@@ -23,20 +23,22 @@ node ('docker-cmd'){
 
     dockerlogin()
     dockerrmi("oneforone/backend-ipython:${env.BRANCH_NAME}.${env.BUILD_NUMBER}")
+    dockerlogin()
     dockerbuild("oneforone/backend-ipython:${env.BRANCH_NAME}.${env.BUILD_NUMBER}")
-}
 
-stage 'DockerHub'
-slackSend color: 'green', message: "ORG: ${env.JOB_NAME} #${env.BUILD_NUMBER} - Pushing to Docker"
-node('docker-cmd') {
+    stage 'DockerHub'
+    slackSend color: 'green', message: "ORG: ${env.JOB_NAME} #${env.BUILD_NUMBER} - Pushing to Docker"
     dockerlogin()
     dockerpush("oneforone/backend-ipython:${env.BRANCH_NAME}.${env.BUILD_NUMBER}")
+}
+
+node('docker-cmd') {
+
 
 }
 
 switch ( env.BRANCH_NAME ) {
     case "master":
-
         stage 'DockerLatest'
         slackSend color: 'blue', message: "ORG: ${env.JOB_NAME} #${env.BUILD_NUMBER} - Stopping DEV Services"
         node('docker-cmd') {
