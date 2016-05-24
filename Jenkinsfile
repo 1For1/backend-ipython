@@ -103,3 +103,6 @@ def dockerpush(image) {
     sh "docker -H tcp://10.1.10.210:5001 push registry.1for.one:5000/${image}"
 }
 
+def dockerrm(vm) {
+    sh "docker -H tcp://10.1.10.210:5001 rm -f ${vm} || echo RMI Failed"
+}
