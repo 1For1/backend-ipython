@@ -9,12 +9,6 @@ RUN curl -L https://github.com/krallin/tini/releases/download/v0.6.0/tini > tini
     mv tini /usr/local/bin/tini && \
     chmod +x /usr/local/bin/tini
 
-# /root/.ipython/profile_default
-RUN apt-get -y install libxft-dev libpng12-dev libzmq3-dev libsqlite3-dev sqlite3 zlib1g-dev\
-    && pip install ipython[all] \
-    && pip install ipywidgets matplotlib \
-    && ipython profile create
-
 EXPOSE 8888
 
 VOLUME /app
